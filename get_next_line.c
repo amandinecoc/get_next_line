@@ -6,7 +6,7 @@
 /*   By: amandine <amandine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:21:33 by amandine          #+#    #+#             */
-/*   Updated: 2025/06/24 21:39:03 by amandine         ###   ########.fr       */
+/*   Updated: 2025/06/24 21:46:52 by amandine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,9 @@ char *get_next_line(int fd);
     line = ft_strdup(buffer);
     while (i <= len_buf)
         buffer[i++] = '\0';
-    i = 0;
     while (len_buf == buffer_size)
     {
+        i = 0;
         len_buf = read(fd, (void)*buffer, buffer_size);
         buffer[len_buf] = '\0';
         tmp = ft_strdup((const char)*buffer);
@@ -100,7 +100,15 @@ char *get_next_line(int fd);
         }
         line = ft_strjoin((char const)*line, (char const)*tmp);
     }
-    return (/*erreur, pas de '\n' mais un '\0'*/);
+    j = ft_strlen(line);
+    if (j != 0)
+    {
+        line[j + 1] = '\n';
+        line[j + 2] = '\n';
+        return (line);
+    }
+    else
+        return (/*erreur, pas de '\n' mais un '\0'*/NULL);
 }
 
 
