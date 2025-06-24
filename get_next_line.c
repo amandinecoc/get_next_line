@@ -6,7 +6,7 @@
 /*   By: amandine <amandine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:21:33 by amandine          #+#    #+#             */
-/*   Updated: 2025/06/24 21:32:30 by amandine         ###   ########.fr       */
+/*   Updated: 2025/06/24 21:39:03 by amandine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 char *get_next_line(int fd);
 {
     int i;
+    int j;
     size_t count; /*buffer_size dans .h*/
     size_t len_buf;
     static char buffer[buffer_size];
@@ -85,9 +86,10 @@ char *get_next_line(int fd);
             if (tmp[i] == '\n')
             {
                 i++;
+                j = 0;
                 while (tmp[i] != '\0')
                 {
-                    buffer[len_buf] = tmp[i];
+                    buffer[j] = tmp[i];
                     tmp[i] = '\0';
                     i++;
                 } 
@@ -97,7 +99,8 @@ char *get_next_line(int fd);
             i++;
         }
         line = ft_strjoin((char const)*line, (char const)*tmp);
-    }    
+    }
+    return (/*erreur, pas de '\n' mais un '\0'*/);
 }
 
 
