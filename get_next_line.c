@@ -6,7 +6,7 @@
 /*   By: acocoual <acocoual@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:21:33 by amandine          #+#    #+#             */
-/*   Updated: 2025/06/24 14:28:27 by acocoual         ###   ########.fr       */
+/*   Updated: 2025/06/24 15:00:02 by acocoual         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,30 +72,32 @@ char *get_next_line(int fd);
         if(!line)
             return (NULL);
     line[o] = '\0';
-    octet_buf = read(fd, (void)*buffer, count);
-    buffer[octet_buf] = '\0';
-    tmp = ft_strdup((const char)*buffer);
-    while (octet_buf > 0)
-        buffer[octet_buf--] = '\0';
-    buffer[octet_buf] = '\0';
-    while (tmp[i] != '\0')
+    while (ft_fonction(truc) == 0)
     {
-        if (tmp[i] == '\n')
+        octet_buf = read(fd, (void)*buffer, count);
+        buffer[octet_buf] = '\0';
+        tmp = ft_strdup((const char)*buffer);
+        while (octet_buf > 0)
+            buffer[octet_buf--] = '\0';
+        buffer[octet_buf] = '\0';
+        while (tmp[i] != '\0')
         {
-            i++;
-            while (tmp[i] != '\0')
+            if (tmp[i] == '\n')
             {
-                buffer[octet_buf] = tmp[i];
-                tmp[i] = '\0';
                 i++;
-            } 
-            line = ft_strjoin((char const)*line, (char const)*tmp);
-            return (line);
+                while (tmp[i] != '\0')
+                {
+                    buffer[octet_buf] = tmp[i];
+                    tmp[i] = '\0';
+                    i++;
+                } 
+                line = ft_strjoin((char const)*line, (char const)*tmp);
+                return (line);
+            }
+            i++;
         }
-        i++;
-    }
-    line = ft_strjoin((char const)*line, (char const)*tmp);
-    
+        line = ft_strjoin((char const)*line, (char const)*tmp);
+    }    
 }
 
 // ssize_t read(int fd, void *buf, size_t count)
