@@ -6,7 +6,7 @@
 /*   By: acocoual <acocoual@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:21:33 by amandine          #+#    #+#             */
-/*   Updated: 2025/06/24 15:00:02 by acocoual         ###   ########.fr       */
+/*   Updated: 2025/06/24 15:35:49 by acocoual         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,8 @@ char *get_next_line(int fd);
         if(!line)
             return (NULL);
     line[o] = '\0';
-    while (ft_fonction(truc) == 0)
+    while (octet_buf = read(fd, (void)*buffer, count) != count)
     {
-        octet_buf = read(fd, (void)*buffer, count);
         buffer[octet_buf] = '\0';
         tmp = ft_strdup((const char)*buffer);
         while (octet_buf > 0)
@@ -99,6 +98,7 @@ char *get_next_line(int fd);
         line = ft_strjoin((char const)*line, (char const)*tmp);
     }    
 }
+
 
 // ssize_t read(int fd, void *buf, size_t count)
 // ---------------------
