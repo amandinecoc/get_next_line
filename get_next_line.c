@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acocoual <acocoual@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amandine <amandine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:21:33 by amandine          #+#    #+#             */
-/*   Updated: 2025/06/24 15:35:49 by acocoual         ###   ########.fr       */
+/*   Updated: 2025/06/24 21:32:30 by amandine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,25 +60,26 @@ char	*ft_strjoin(char const *s1, char const *s2)
 char *get_next_line(int fd);
 {
     int i;
-    size_t count;
-    size_t octet_buf;
-    static char *buffer;
+    size_t count; /*buffer_size dans .h*/
+    size_t len_buf;
+    static char buffer[buffer_size];
     char *tmp;
     char *line;
 
     i = 0;
-    count = 16;
-    line = malloc(sizeof(char) * 1)
-        if(!line)
-            return (NULL);
-    line[o] = '\0';
-    while (octet_buf = read(fd, (void)*buffer, count) != count)
+    len_buf = buffer_size;
+    line = ft_strdup(buffer);
+    while (i <= len_buf)
+        buffer[i++] = '\0';
+    i = 0;
+    while (len_buf == buffer_size)
     {
-        buffer[octet_buf] = '\0';
+        len_buf = read(fd, (void)*buffer, buffer_size);
+        buffer[len_buf] = '\0';
         tmp = ft_strdup((const char)*buffer);
-        while (octet_buf > 0)
-            buffer[octet_buf--] = '\0';
-        buffer[octet_buf] = '\0';
+        while (i < len_buf)
+            buffer[i++] = '\0';
+        i = 0;
         while (tmp[i] != '\0')
         {
             if (tmp[i] == '\n')
@@ -86,7 +87,7 @@ char *get_next_line(int fd);
                 i++;
                 while (tmp[i] != '\0')
                 {
-                    buffer[octet_buf] = tmp[i];
+                    buffer[len_buf] = tmp[i];
                     tmp[i] = '\0';
                     i++;
                 } 
