@@ -6,11 +6,21 @@
 /*   By: amandine <amandine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:21:33 by amandine          #+#    #+#             */
-/*   Updated: 2025/06/24 21:46:52 by amandine         ###   ########.fr       */
+/*   Updated: 2025/06/25 14:34:37 by amandine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+size_t	ft_strlen(const char *s)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[i] != '\0')
+		i++;
+	return (i);
+}
 
 char	*ft_strdup(const char *s)
 {
@@ -38,7 +48,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 
 	i = 0;
 	j = 0;
-	str = malloc(sizeof(char) * (ft_strlen((char *)s1) + ft_strlen((char *)s2)
+	str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2)
 				+ 1));
 	if (!str)
 		return (NULL);
@@ -57,87 +67,67 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (str);
 }
 
-char *get_next_line(int fd);
+char	*get_next_line(int fd)
 {
-    int i;
-    int j;
-    size_t count; /*buffer_size dans .h*/
-    size_t len_buf;
-    static char buffer[buffer_size];
-    char *tmp;
-    char *line;
+	int i;
+	int j;
+	size_t len_buf;
+	static char buffer[BUFFER_SIZE];
+	char *tmp;
+	char *line;
 
-    i = 0;
-    len_buf = buffer_size;
-    line = ft_strdup(buffer);
-    while (i <= len_buf)
-        buffer[i++] = '\0';
-    while (len_buf == buffer_size)
-    {
-        i = 0;
-        len_buf = read(fd, (void)*buffer, buffer_size);
-        buffer[len_buf] = '\0';
-        tmp = ft_strdup((const char)*buffer);
-        while (i < len_buf)
-            buffer[i++] = '\0';
-        i = 0;
-        while (tmp[i] != '\0')
-        {
-            if (tmp[i] == '\n')
-            {
-                i++;
-                j = 0;
-                while (tmp[i] != '\0')
-                {
-                    buffer[j] = tmp[i];
-                    tmp[i] = '\0';
-                    i++;
-                } 
-                line = ft_strjoin((char const)*line, (char const)*tmp);
-                return (line);
-            }
-            i++;
-        }
-        line = ft_strjoin((char const)*line, (char const)*tmp);
-    }
-    j = ft_strlen(line);
-    if (j != 0)
-    {
-        line[j + 1] = '\n';
-        line[j + 2] = '\n';
-        return (line);
-    }
-    else
-        return (/*erreur, pas de '\n' mais un '\0'*/NULL);
+	i = 0;
+	len_buf = BUFFER_SIZE;
+	line = ft_strdup(buffer);
+	while (i <= len_buf)
+		buffer[i++] = '\0';
+	while (len_buf == BUFFER_SIZE)
+	{
+		i = 0;
+		len_buf = read(fd, buffer, BUFFER_SIZE);
+		buffer[len_buf] = '\0';
+		tmp = ft_strdup(buffer);
+		while (i < len_buf)
+			buffer[i++] = '\0';
+		i = 0;
+		while (tmp[i] != '\0')
+		{
+			if (tmp[i] == '\n')
+			{
+				i++;
+				j = 0;
+				while (tmp[i] != '\0')
+				{
+					buffer[j] = tmp[i];
+					tmp[i] = '\0';
+					i++;
+				}
+				line = ft_strjoin(line, tmp);
+				return (line);
+			}
+			i++;
+		}
+		line = ft_strjoin(line, tmp);
+	}
+	j = ft_strlen(line);
+	if (j > 0)
+		return (line);
+	return (NULL);
 }
 
-
-// ssize_t read(int fd, void *buf, size_t count)
-// ---------------------
-// Écrire une fonction qui retourne 
-// une ligne lue depuis un descripteur de fichier
-// ---------------------
-// Desappels successifs à votre fonction get_next_line() 
-// doivent vous permettre de lire l’intégralité du fichier 
-// texte référencé par le descripteur de fichier, 
-// une ligne à la fois.
-// ---------------------
-// S’il n’y a plus rien à lire, ou en cas d’erreur, 
-// elle doit retourner NULL.
-// ---------------------
-// retourner la ligne qui a été lue suivie du \n la terminant,
-// sauf dans le cas où vous avez atteint la fin du fichier et 
-// que ce dernier ne se termine pas par un \n.
-// ---------------------
-// Votre programme doit compiler avec l’option :-D BUFFER_SIZE=n
-// ---------------------
-// Cette macro définie à l’invocation du compilateur servira 
-// à spécifier la taille du buffer lors de vos appels à read() 
-// dans votre fonction get_next_line(). Cette valeur sera modifiée lors de la peer-evaluation et 
-// par la Moulinette dans le but de tester votre rendu
-// ---------------------
-// cc-Wall-Wextra-Werror-D BUFFER_SIZE=42 <files>.c
-// ---------------------
-// Les variables globales sont interdites
-// ---------------------
-// ---------------------
+int	main()
+{
+    int fd = open("./fichier.txt", O_RDONLY);
+	char *line;
+    
+    line =  get_next_line(fd);
+    while (line != NULL)
+    {
+        printf("%s", line);
+        free(line);
+        line = get_next_line(fd);
+    }
+    free(line);
+    close(fd);
+	return (0);
+}

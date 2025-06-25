@@ -6,7 +6,7 @@
 /*   By: amandine <amandine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:22:32 by amandine          #+#    #+#             */
-/*   Updated: 2025/06/24 09:24:56 by amandine         ###   ########.fr       */
+/*   Updated: 2025/06/25 14:33:29 by amandine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,12 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-char *get_next_line(int fd);
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+
+# define BUFFER_SIZE 5
+
+char	*get_next_line(int fd);
 
 #endif
