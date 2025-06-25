@@ -6,7 +6,7 @@
 /*   By: amandine <amandine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:22:32 by amandine          #+#    #+#             */
-/*   Updated: 2025/06/25 14:33:29 by amandine         ###   ########.fr       */
+/*   Updated: 2025/06/25 16:51:11 by amandine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-# define BUFFER_SIZE 5
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
 
 char	*get_next_line(int fd);
 

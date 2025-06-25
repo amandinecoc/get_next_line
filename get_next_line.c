@@ -6,7 +6,7 @@
 /*   By: amandine <amandine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:21:33 by amandine          #+#    #+#             */
-/*   Updated: 2025/06/25 14:34:37 by amandine         ###   ########.fr       */
+/*   Updated: 2025/06/25 17:19:58 by amandine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*ft_strdup(const char *s)
 	return (dest);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*str;
 	int		i;
@@ -64,32 +64,45 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		i++;
 	}
 	str[i] = '\0';
-	return (str);
+	return (free((void *)s1), free((void *)s2), str);
+}
+
+void	ft_bzero(void *s, size_t n)
+{
+	char	*tmp_s;
+
+	tmp_s = (char *)s;
+	while (n > 0)
+	{
+		*tmp_s = 0;
+		tmp_s++;
+		n--;
+	}
 }
 
 char	*get_next_line(int fd)
 {
 	int i;
 	int j;
-	size_t len_buf;
+	int len_buf;
 	static char buffer[BUFFER_SIZE];
 	char *tmp;
 	char *line;
 
-	i = 0;
+    if (fd < 0)
+    {
+        return (NULL);
+    }
 	len_buf = BUFFER_SIZE;
 	line = ft_strdup(buffer);
-	while (i <= len_buf)
-		buffer[i++] = '\0';
-	while (len_buf == BUFFER_SIZE)
+    ft_bzero(buffer, len_buf);
+	while (len_buf > 0)
 	{
 		i = 0;
 		len_buf = read(fd, buffer, BUFFER_SIZE);
 		buffer[len_buf] = '\0';
 		tmp = ft_strdup(buffer);
-		while (i < len_buf)
-			buffer[i++] = '\0';
-		i = 0;
+		ft_bzero(buffer, len_buf);
 		while (tmp[i] != '\0')
 		{
 			if (tmp[i] == '\n')
@@ -101,6 +114,7 @@ char	*get_next_line(int fd)
 					buffer[j] = tmp[i];
 					tmp[i] = '\0';
 					i++;
+                    j++;
 				}
 				line = ft_strjoin(line, tmp);
 				return (line);
@@ -112,7 +126,7 @@ char	*get_next_line(int fd)
 	j = ft_strlen(line);
 	if (j > 0)
 		return (line);
-	return (NULL);
+	return (free((void*)line), NULL);
 }
 
 int	main()
