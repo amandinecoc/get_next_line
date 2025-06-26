@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amandine <amandine@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acocoual <acocoual@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:21:33 by amandine          #+#    #+#             */
-/*   Updated: 2025/06/25 17:19:58 by amandine         ###   ########.fr       */
+/*   Updated: 2025/06/26 13:18:10 by acocoual         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,7 @@ char	*ft_strjoin(char *s1, char *s2)
 
 	i = 0;
 	j = 0;
-	str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2)
-				+ 1));
+	str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!str)
 		return (NULL);
 	while (s1[i] != '\0')
@@ -82,20 +81,18 @@ void	ft_bzero(void *s, size_t n)
 
 char	*get_next_line(int fd)
 {
-	int i;
-	int j;
-	int len_buf;
-	static char buffer[BUFFER_SIZE];
-	char *tmp;
-	char *line;
+	int			i;
+	int			j;
+	int			len_buf;
+	static char	buffer[BUFFER_SIZE];
+	char		*tmp;
+	char		*line;
 
-    if (fd < 0)
-    {
-        return (NULL);
-    }
+	if (fd < 0 || !fd || BUFFER_SIZE < 0)
+		return (line = NULL, free(line), free(tmp), NULL);
 	len_buf = BUFFER_SIZE;
 	line = ft_strdup(buffer);
-    ft_bzero(buffer, len_buf);
+	ft_bzero(buffer, len_buf);
 	while (len_buf > 0)
 	{
 		i = 0;
@@ -114,7 +111,7 @@ char	*get_next_line(int fd)
 					buffer[j] = tmp[i];
 					tmp[i] = '\0';
 					i++;
-                    j++;
+					j++;
 				}
 				line = ft_strjoin(line, tmp);
 				return (line);
@@ -126,22 +123,5 @@ char	*get_next_line(int fd)
 	j = ft_strlen(line);
 	if (j > 0)
 		return (line);
-	return (free((void*)line), NULL);
-}
-
-int	main()
-{
-    int fd = open("./fichier.txt", O_RDONLY);
-	char *line;
-    
-    line =  get_next_line(fd);
-    while (line != NULL)
-    {
-        printf("%s", line);
-        free(line);
-        line = get_next_line(fd);
-    }
-    free(line);
-    close(fd);
-	return (0);
+	return (free((void *)line), NULL);
 }

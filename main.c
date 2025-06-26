@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acocoual <acocoual@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/24 09:22:32 by amandine          #+#    #+#             */
-/*   Updated: 2025/06/26 12:55:28 by acocoual         ###   ########.fr       */
+/*   Created: 2025/06/26 12:42:33 by acocoual          #+#    #+#             */
+/*   Updated: 2025/06/26 13:20:04 by acocoual         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "get_next_line.h"
 
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1000000
-# endif
-
-char	*get_next_line(int fd);
-
-#endif
+int	main()
+{
+    int fd = open("./fichier.txt", O_RDONLY);
+	char *line;
+    
+    line =  get_next_line("-1");
+    while (line != NULL)
+    {
+        printf("%s", line);
+        free(line);
+        line = get_next_line("-1");
+    }
+    free(line);
+    close(fd);
+	return (0);
+}
