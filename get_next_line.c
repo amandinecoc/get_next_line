@@ -6,7 +6,7 @@
 /*   By: amandine <amandine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:21:33 by amandine          #+#    #+#             */
-/*   Updated: 2025/06/29 15:58:34 by amandine         ###   ########.fr       */
+/*   Updated: 2025/06/30 00:09:06 by amandine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (free((void *)s1), free((void *)s2), str);
 }
 
-void	ft_bzero(void *s, size_t n)
+void	ft_bzero(void *s, int n)
 {
 	char	*tmp_s;
 
@@ -88,11 +88,29 @@ char	*get_next_line(int fd)
 	char		*tmp;
 	char		*line;
 
-	// if (fd < 0 || !fd || BUFFER_SIZE < 0)
-	// 	return (line = NULL, free(line), free(tmp), NULL);
+	if (fd < 0)
+		return (ft_bzero(buffer, BUFFER_SIZE), NULL);
 	len_buf = BUFFER_SIZE;
 	line = ft_strdup(buffer);
 	ft_bzero(buffer, len_buf);
+	i = 0;
+	while (line[i] != '\0')
+		{
+			if (line[i] == '\n')
+			{
+				i++;
+				j = 0;
+				while (line[i] != '\0')
+				{
+					buffer[j] = line[i];
+					line[i] = '\0';
+					i++;
+					j++;
+				}
+				return (line);
+			}
+			i++;
+		}
 	while (len_buf > 0)
 	{
 		i = 0;
@@ -113,6 +131,7 @@ char	*get_next_line(int fd)
 					i++;
 					j++;
 				}
+				// buffer[j] = '\0';
 				line = ft_strjoin(line, tmp);
 				return (line);
 			}
@@ -123,5 +142,5 @@ char	*get_next_line(int fd)
 	j = ft_strlen(line);
 	if (j > 0)
 		return (line);
-	return (free((void *)line), NULL);
+	return (ft_bzero(buffer, BUFFER_SIZE), free((void *)line), NULL);
 }

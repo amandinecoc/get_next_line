@@ -6,7 +6,7 @@
 /*   By: amandine <amandine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:21:33 by amandine          #+#    #+#             */
-/*   Updated: 2025/06/29 16:20:44 by amandine         ###   ########.fr       */
+/*   Updated: 2025/06/29 23:17:34 by amandine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (free((void *)s1), free((void *)s2), str);
 }
 
-void	ft_bzero(void *s, size_t n)
+void	ft_bzero(void *s, int n)
 {
 	char	*tmp_s;
 
@@ -79,7 +79,7 @@ void	ft_bzero(void *s, size_t n)
 	}
 }
 
-char	*get_next_line_bonus(int fd)
+char	*get_next_line(int fd)
 {
 	int			i;
 	int			j;
@@ -88,7 +88,7 @@ char	*get_next_line_bonus(int fd)
 	char		*tmp;
 	char		*line;
 
-	if (fd < 0 || !fd || BUFFER_SIZE < 0)
+	if (fd < 0 || !fd)
 		return (NULL);
 	len_buf = BUFFER_SIZE;
 	line = ft_strdup(buffer[fd]);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acocoual <acocoual@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amandine <amandine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 12:42:33 by acocoual          #+#    #+#             */
-/*   Updated: 2025/06/26 13:20:04 by acocoual         ###   ########.fr       */
+/*   Updated: 2025/06/30 00:12:55 by amandine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,18 @@ int	main()
 {
     int fd = open("./fichier.txt", O_RDONLY);
 	char *line;
-    
-    line =  get_next_line("-1");
+    int i = 1;
+    line =  get_next_line(fd);
     while (line != NULL)
     {
-        printf("%s", line);
+        printf("%d =%s", i, line);
         free(line);
-        line = get_next_line("-1");
+        line = get_next_line(fd);
+        i++;
     }
+    free(line);
+    line = get_next_line(fd);
+    printf("%d =%s", i, line);
     free(line);
     close(fd);
 	return (0);
