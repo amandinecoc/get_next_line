@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acocoual <acocoual@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amandine <amandine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:21:33 by amandine          #+#    #+#             */
-/*   Updated: 2025/06/26 13:31:12 by acocoual         ###   ########.fr       */
+/*   Updated: 2025/06/29 15:52:22 by amandine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,22 +84,22 @@ char	*get_next_line_bonus(int fd)
 	int			i;
 	int			j;
 	int			len_buf;
-	static char	buffer[BUFFER_SIZE];
+	static char	buffer[1024][BUFFER_SIZE];
 	char		*tmp;
 	char		*line;
 
 	if (fd < 0 || !fd || BUFFER_SIZE < 0)
-		return (line = NULL, free(line), free(tmp), NULL);
+		return (line = NULL, free(line), NULL);
 	len_buf = BUFFER_SIZE;
-	line = ft_strdup(buffer);
-	ft_bzero(buffer, len_buf);
+	line = ft_strdup(buffer[fd]);
+	ft_bzero(buffer[fd], len_buf);
 	while (len_buf > 0)
 	{
 		i = 0;
-		len_buf = read(fd, buffer, BUFFER_SIZE);
-		buffer[len_buf] = '\0';
-		tmp = ft_strdup(buffer);
-		ft_bzero(buffer, len_buf);
+		len_buf = read(fd, buffer[fd], BUFFER_SIZE);
+		buffer[fd][len_buf] = '\0';
+		tmp = ft_strdup(buffer[fd]);
+		ft_bzero(buffer[fd], len_buf);
 		while (tmp[i] != '\0')
 		{
 			if (tmp[i] == '\n')
@@ -108,7 +108,7 @@ char	*get_next_line_bonus(int fd)
 				j = 0;
 				while (tmp[i] != '\0')
 				{
-					buffer[j] = tmp[i];
+					buffer[fd][j] = tmp[i];
 					tmp[i] = '\0';
 					i++;
 					j++;
