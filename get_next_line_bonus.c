@@ -6,7 +6,7 @@
 /*   By: amandine <amandine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:21:33 by amandine          #+#    #+#             */
-/*   Updated: 2025/06/29 15:52:22 by amandine         ###   ########.fr       */
+/*   Updated: 2025/06/29 16:20:44 by amandine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ char	*get_next_line_bonus(int fd)
 	char		*line;
 
 	if (fd < 0 || !fd || BUFFER_SIZE < 0)
-		return (line = NULL, free(line), NULL);
+		return (NULL);
 	len_buf = BUFFER_SIZE;
 	line = ft_strdup(buffer[fd]);
 	ft_bzero(buffer[fd], len_buf);

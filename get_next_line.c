@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acocoual <acocoual@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amandine <amandine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:21:33 by amandine          #+#    #+#             */
-/*   Updated: 2025/06/26 13:18:10 by acocoual         ###   ########.fr       */
+/*   Updated: 2025/06/29 15:58:34 by amandine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,8 @@ char	*get_next_line(int fd)
 	char		*tmp;
 	char		*line;
 
-	if (fd < 0 || !fd || BUFFER_SIZE < 0)
-		return (line = NULL, free(line), free(tmp), NULL);
+	// if (fd < 0 || !fd || BUFFER_SIZE < 0)
+	// 	return (line = NULL, free(line), free(tmp), NULL);
 	len_buf = BUFFER_SIZE;
 	line = ft_strdup(buffer);
 	ft_bzero(buffer, len_buf);
