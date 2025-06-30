@@ -6,7 +6,7 @@
 /*   By: amandine <amandine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:21:33 by amandine          #+#    #+#             */
-/*   Updated: 2025/06/30 17:19:49 by amandine         ###   ########.fr       */
+/*   Updated: 2025/06/30 21:19:05 by amandine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,3 +77,50 @@ char	*get_next_line(int fd)
 		return (line);
 	return (ft_bzero(buffer, BUFFER_SIZE), free((void *)line), NULL);
 }
+
+
+// char	*get_next_line(int fd)
+// {
+// 	int			i;
+// 	int			j;
+// 	int			len_buf;
+// 	static char	buffer[BUFFER_SIZE];
+// 	char		*line;
+
+// 	if (fd < 0)
+// 		return (ft_bzero(buffer, BUFFER_SIZE), NULL);
+// 	len_buf = BUFFER_SIZE;
+// 	line = ft_strdup(buffer);
+// 	ft_bzero(buffer, len_buf);
+// 	while (len_buf > 0)
+// 	{
+// 		i = 0;
+// 		len_buf = read(fd, buffer, BUFFER_SIZE);
+// 		buffer[len_buf] = '\0';
+// 		// tmp = ft_strdup(buffer);
+// 		// line = ft_strjoin(line, tmp);
+// 		line = ft_strjoin(line, ft_strdup(buffer));
+// 		ft_bzero(buffer, len_buf);
+// 		while (line[i] != '\0')
+// 		{
+// 			if (line[i] == '\n')
+// 			{
+// 				i++;
+// 				j = 0;
+// 				while (line[i] != '\0')
+// 				{
+// 					buffer[j] = line[i];
+// 					line[i] = '\0';
+// 					i++;
+// 					j++;
+// 				}
+// 				return (line);
+// 			}
+// 			i++;
+// 		}
+// 	}
+// 	j = ft_strlen(line);
+// 	if (j > 0)
+// 		return (line);
+// 	return (ft_bzero(buffer, BUFFER_SIZE), free((void *)line), NULL);
+// }
