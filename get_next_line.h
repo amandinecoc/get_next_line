@@ -6,7 +6,7 @@
 /*   By: amandine <amandine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:22:32 by amandine          #+#    #+#             */
-/*   Updated: 2025/06/30 00:11:33 by amandine         ###   ########.fr       */
+/*   Updated: 2025/06/30 17:12:01 by amandine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,11 @@
 # endif
 
 char	*get_next_line(int fd);
+// int recup_buffer_in_line(char **line, char *buffer[BUFFER_SIZE]);
+size_t	ft_strlen(const char *s);
+char	*ft_strdup(const char *s);
+char	*ft_strjoin(char *s1, char *s2);
+void	ft_bzero(void *s, int n);
+
 
 #endif
