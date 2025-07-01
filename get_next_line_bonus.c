@@ -6,122 +6,95 @@
 /*   By: amandine <amandine@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:21:33 by amandine          #+#    #+#             */
-/*   Updated: 2025/06/29 23:17:34 by amandine         ###   ########.fr       */
+/*   Updated: 2025/07/01 12:42:14 by amandine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-size_t	ft_strlen(const char *s)
+int	check_n_in_remaining_line(char **line, char *buffer)
 {
-	size_t	i;
+	int	i;
+	int	j;
 
 	i = 0;
-	while (s[i] != '\0')
+	while ((*line)[i] != '\0')
+	{
+		if ((*line)[i] == '\n')
+		{
+			i++;
+			j = 0;
+			while ((*line)[i] != '\0')
+			{
+				buffer[j++] = (*line)[i];
+				(*line)[i++] = '\0';
+			}
+			return (EXIT_SUCCESS);
+		}
 		i++;
-	return (i);
+	}
+	return (EXIT_FAILURE);
 }
 
-char	*ft_strdup(const char *s)
+int	check_n_in_next_line(char **line, char *buffer, int fd, int len_buf)
 {
-	char	*dest;
 	int		i;
+	char	*tmp;
 
-	dest = malloc(sizeof(char) * ft_strlen(s) + 1);
-	if (!dest)
-		return (NULL);
-	i = 0;
-	while (s[i] != '\0')
-	{
-		dest[i] = s[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
-}
-
-char	*ft_strjoin(char *s1, char *s2)
-{
-	char	*str;
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (!str)
-		return (NULL);
-	while (s1[i] != '\0')
-	{
-		str[i] = s1[i];
-		i++;
-	}
-	while (s2[j] != '\0')
-	{
-		str[i] = s2[j];
-		j++;
-		i++;
-	}
-	str[i] = '\0';
-	return (free((void *)s1), free((void *)s2), str);
-}
-
-void	ft_bzero(void *s, int n)
-{
-	char	*tmp_s;
-
-	tmp_s = (char *)s;
-	while (n > 0)
-	{
-		*tmp_s = 0;
-		tmp_s++;
-		n--;
-	}
-}
-
-char	*get_next_line(int fd)
-{
-	int			i;
-	int			j;
-	int			len_buf;
-	static char	buffer[1024][BUFFER_SIZE];
-	char		*tmp;
-	char		*line;
-
-	if (fd < 0 || !fd)
-		return (NULL);
-	len_buf = BUFFER_SIZE;
-	line = ft_strdup(buffer[fd]);
-	ft_bzero(buffer[fd], len_buf);
 	while (len_buf > 0)
 	{
 		i = 0;
-		len_buf = read(fd, buffer[fd], BUFFER_SIZE);
-		buffer[fd][len_buf] = '\0';
-		tmp = ft_strdup(buffer[fd]);
-		ft_bzero(buffer[fd], len_buf);
+		len_buf = read(fd, buffer, BUFFER_SIZE);
+		buffer[len_buf] = '\0';
+		tmp = ft_strdup(buffer);
+		ft_bzero(buffer, len_buf);
 		while (tmp[i] != '\0')
 		{
 			if (tmp[i] == '\n')
 			{
-				i++;
-				j = 0;
-				while (tmp[i] != '\0')
-				{
-					buffer[fd][j] = tmp[i];
-					tmp[i] = '\0';
-					i++;
-					j++;
-				}
-				line = ft_strjoin(line, tmp);
-				return (line);
+				*line = fill_remain_in_buffer(i, &tmp, buffer, *line);
+				return (EXIT_SUCCESS);
 			}
 			i++;
 		}
-		line = ft_strjoin(line, tmp);
+		*line = ft_strjoin(*line, tmp);
 	}
-	j = ft_strlen(line);
-	if (j > 0)
+	return (EXIT_FAILURE);
+}
+
+char	*fill_remain_in_buffer(int i, char **tmp, char *buffer, char *line)
+{
+	int	j;
+
+	j = 0;
+	i++;
+	while ((*tmp)[i] != '\0')
+	{
+		buffer[j++] = (*tmp)[i];
+		(*tmp)[i++] = '\0';
+	}
+	line = ft_strjoin(line, *tmp);
+	return (line);
+}
+
+char	*get_next_line(int fd)
+{
+	int			size;
+	int			len_buf;
+	static char	buffer[1024][BUFFER_SIZE];
+	char		*line;
+
+	if (fd < 0)
+		return (ft_bzero(buffer[fd], BUFFER_SIZE), NULL);
+	len_buf = BUFFER_SIZE;
+	line = ft_strdup(buffer[fd]);
+	ft_bzero(buffer[fd], len_buf);
+	if (check_n_in_remaining_line(&line, buffer[fd]) == EXIT_SUCCESS)
 		return (line);
-	return (free((void *)line), NULL);
+	if (check_n_in_next_line(&line, buffer[fd], fd, len_buf) == EXIT_SUCCESS)
+		return (line);
+	size = ft_strlen(line);
+	if (size > 0)
+		return (line);
+	return (ft_bzero(buffer[fd], BUFFER_SIZE), free((void *)line), NULL);
 }
