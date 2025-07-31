@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amandine <amandine@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acocoual <acocoual@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 09:21:33 by amandine          #+#    #+#             */
-/*   Updated: 2025/07/01 14:04:34 by amandine         ###   ########.fr       */
+/*   Updated: 2025/07/31 16:06:57 by acocoual         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,8 @@ int	check_n_in_next_line(char **line, char *buffer, int fd, int len_buf)
 	{
 		i = 0;
 		len_buf = read(fd, buffer, BUFFER_SIZE);
-		// if (len_buf < 0)
-		// {
-		// 	ft_bzero(buffer, BUFFER_SIZE);
-		// 	return (EXIT_FAILURE);
-		// }			
+		if (len_buf < 0)
+			return (EXIT_FAILURE);
 		buffer[len_buf] = '\0';
 		tmp = ft_strdup(buffer);
 		ft_bzero(buffer, len_buf);
